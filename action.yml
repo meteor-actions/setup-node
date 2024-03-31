@@ -10,6 +10,10 @@ inputs:
     description: 'The version of nvm to use in case actions/setup-node fails'
     default: 'v0.39.7'
     required: true
+  architecture:
+    description: 'The architecture to set up for in case actions/setup-node fails'
+    default: 'linux-x64'
+    required: true
 
 runs:
   using: composite
@@ -31,7 +35,7 @@ runs:
     - name: Install Meteor-specific Node version via nvm
       if: ${{ steps.setup-node.outcome != 'success' }}
       env:
-        ARCH: ${{ matrix.architecture }}
+        ARCH: ${{ inputs.architecture }}
         NODE_VERSION: ${{ inputs.node-version }}
         NVM_DIR: ${{ env.NVM_DIR }}
       shell: bash
